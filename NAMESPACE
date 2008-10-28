@@ -1,0 +1,28 @@
+import(graph,TSP)
+importFrom(gtools,permutations)
+
+export(
+    zigzag,
+    hpaths,
+    permute_hpaths,
+    weighted_hpaths,
+    order_tsp,order_best,
+    best_orientation,
+    eseq,  eseqa,  
+    kntour_add,kntour_drop,
+    mk_complete_graph,
+    etour,     mc_plot,overlayCI,
+    guided_pcp, table_plot,
+    edge_index, 
+    edge2dist,dist2edge, find_path,
+    path_weights, path_cis,
+    nnodes,path_cor,pv_pcp
+    )
+    
+exportClasses(even_graph) 
+
+
+exportMethods(is_even_graph, mk_even_graph, eulerian)
+
+S3method(edge_index, default)
+S3method(edge_index, scagdf)
