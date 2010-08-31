@@ -7,11 +7,11 @@
 \alias{is_even_graph,graphNEL-method}
 
 \title{Class of graphs where all nodes have even degree}
-\description{This class is an extension of \code{graph_NEL}. For graphs of this class, euler tours may always be constructed. Objects of this class should  be created by  \code{mk_even_graph}}
+\description{This class is an extension of \code{graphNEL-class}. For graphs of this class, euler tours may always be constructed. Objects of this class should  be created by  \code{mk_even_graph}}
 
 
 \section{Slots}{
-	This class has all slots from \code{"\linkS4class{graph_NEL}"} plus:
+	This class has all slots from  \code{\link[graph]{graphNEL-class}} plus:
 	 \describe{
     \item{\code{dummy_node}:}{Object of class \code{"character"}  }
     \item{\code{extra_edges}:}{Object of class \code{"character"}  }
@@ -34,9 +34,9 @@ Class \code{\link[graph]{graph-class}}, by class "graphNEL", distance 2.
 
 \section{Methods}{
   \describe{
-\item{is\_even\_graph}{\code{signature(g = "graphNEL")}: checks whether a graph has all nodes of even degree.}
+\item{is_even_graph}{\code{signature(g = "graphNEL")}: checks whether a graph has all nodes of even degree.}
       
-\item{is\_even\_graph}{\code{signature(g = "even_graph")}: always TRUE.}
+\item{is_even_graph}{\code{signature(g = "even_graph")}: always TRUE.}
 }}
 
 \author{ C.B. Hurley and R.W. Oldford }
@@ -45,7 +45,7 @@ Class \code{\link[graph]{graph-class}}, by class "graphNEL", distance 2.
 
 
 
-\seealso{}
+%\seealso{}
 \examples{
 showClass("even_graph")
 

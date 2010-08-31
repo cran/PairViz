@@ -14,7 +14,7 @@
   These  functions perform calculations on edge matrices containing pairwise information.}
 \usage{
 path_weights(edgew, path,  symmetric = TRUE,edge.index=edge_index(edgew),...)
-path_cis(edgew, path,edge.index=edge_index(edgew))
+path_cis(edgew, path,edge.index=edge_index(edgew),ci.pos=FALSE)
 edge2dist(edgew, edge.index=edge_index(edgew))
 dist2edge(d)
 edge_index(x, order="default")
@@ -28,10 +28,11 @@ edge_index(x, order="default")
   \item{symmetric}{If \code{TRUE} edge weights are interpreted as symmetric. }
    \item{edge.index}{A 2-column matrix with each row giving indices for
  corresponding weight in \code{edgew}.}
+  \item{ci.pos}{If TRUE, all CIs are mu(max) - mu(min), otherwise mu(right) - mu(left). }
    \item{d}{A \code{dist} or matrx of distances.}
-    \item{order}{If "low.order.first" or "scagdf", lists lowest index pairs first, otherwise lists pairs starting with 1, then 2 etc.}
+    \item{order}{If "low.order.first" or "scagnostics", lists lowest index pairs first, otherwise lists pairs starting with 1, then 2 etc.}
   \item{x}{An edgew matrix or vector, or a positive integer.}
-  \item{...}{}
+  \item{...}{Ignored}
 
 }
 \details{
@@ -45,7 +46,7 @@ edge_index(x, order="default")
   \code{dist2edge} - Returns a vector of edge weights.
  
  \code{edge_index} -A generic function. Returns a 2-column matrix with one row for
- each edge.  Each row contains an index pair i,j. If \code{order} is "low.order.first" or "scagdf", lists lowest index pairs first - this is the default ordering for class \code{scagdf}, otherwise lists pairs
+ each edge.  Each row contains an index pair i,j. If \code{order} is "low.order.first" or "scagnostics", lists lowest index pairs first - this is the default ordering for class \code{scagdf}, otherwise lists pairs
   starting with 1, then 2 etc
   
   \code{nnodes} - Here \code{edgew} contains edge weights for a complete graph;  returns the number of nodes in this complete graph.

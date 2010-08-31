@@ -29,7 +29,7 @@ order_best <- function(d, maxexact=9,nsamples=50000,path_weight=sum,cycle=FALSE,
          dnames <- colnames(d)
       n <- nrow(d)
       if (n <= maxexact)
-     	 perms <- permutations(n,n)
+     	 perms <<- permutations(n,n)
       else perms <- t(sapply(1:nsamples, function(i) sample(n,n)))
       pathlens <- apply(perms,1, function(h) path_weight(path_values(h,d,cycle)))
       o <- perms[which.min(pathlens),]
@@ -42,11 +42,10 @@ order_best <- function(d, maxexact=9,nsamples=50000,path_weight=sum,cycle=FALSE,
 
 	
 path_values <- function(path,d,cycle=FALSE)  {
-	d <- d[path,path]
-	vals <- d[col(d) == row(d) + 1]
-	n <- nrow(d)
-	if (cycle) vals <- c(vals, d[1,n])
-	return(vals)
+	n <- length(path)
+	o <- cbind(path[-n],path[-1])
+	if (cycle) path <- rbind(path,c(path[n],path[1]))
+	return(d[o])	
 	}
 
 

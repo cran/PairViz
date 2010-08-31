@@ -5,7 +5,7 @@
 \description{
    Plots rectangles on a grid-  a barchart/mosaic variant which facilitates pairwise comparisons.}
 \usage{
-table_plot(rectw, recth, col="grey50", gapx = NULL, gapy = NULL, spacex = 0.03, spacey = 0.03, xjust = "center", yjust = "center", xruler = NULL, yruler = NULL, color.ruler = "grey32",xlab=NULL,ylab=NULL, ...)
+table_plot(rectw, recth, col="grey50", gapx = NULL, gapy = NULL, spacex = 0.03, spacey = 0.03, xjust = "center", yjust = "center", xruler = NULL, yruler = NULL, color.ruler = "grey32",pch0=1,xlab=NULL,ylab=NULL, plot=TRUE,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,13 +21,12 @@ table_plot(rectw, recth, col="grey50", gapx = NULL, gapy = NULL, spacex = 0.03, 
   \item{xruler}{Specifies position of rulers drawn parallel to x-axis. Values are a subset of ("top","center","bottom")}
   \item{yruler}{ Specifies position of rulers drawn parallel to y-axis. Values are a subset of ("left","center","right") }
   \item{color.ruler}{ Color for the rulers. }
+  \item{pch0}{ Symbol for zero cell size. May be NULL. }
    \item{xlab}{ X label }
  \item{ylab}{ Y label }
+  \item{plot}{ If TRUE, draw tge plot. Otherwise returns a matrix where each row is the coordinates of a the calculated rectangle. }
 
   \item{\dots}{ Passed to plot. }
-}
-\details{
-  
 }
 \references{See \link{overview}}
 \author{ Catherine Hurley}
@@ -43,10 +42,10 @@ tab <- apply(HairEyeColor, c(1, 2), sum)
 dev.new()
 par(mar=c(3,3,1,1))
 par(cex=.6,mgp=c(2, -.5, 0))
-table_plot(sqrt(tabc),sqrt(tabc))
+table_plot(sqrt(tab),sqrt(tab))
 # this table plot has cells with widths and heights proportional to the square root of cell counts.
 
-tabp <- prop.table(tabc,2)
+tabp <- prop.table(tab,2)
 
 table_plot(apply(tab,2,sum),tabp) # make cell widths proportional to margin totals, heights to conditional prob
 

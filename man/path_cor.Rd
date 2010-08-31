@@ -12,4 +12,3 @@ path_cor(edgew, method = "kendall")
   \item{method}{ passed to \code{\link{cor}}}
 }
 
-\keyword{  }

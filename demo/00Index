@@ -4,3 +4,5 @@ mcplots          Multiple comparison plotspcp              Guided parallel coor
 stars            Star glyphs
 stepwise         Uses eulerians  for regression model comparisonstableplot        Table displays of categorical data
 cat_pcp          A variant of parallel coordinates for categorical data
+rating           PCP for rater agreement
+demo_fns         Utility functions for demos

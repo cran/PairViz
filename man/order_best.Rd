@@ -15,7 +15,7 @@ randomly generated permutations.}
   \item{cycle}{If \code{TRUE}, finds the shortest cycle, otherwise the shortest open path.}
   \item{path_weight}{Combines edge weights into a single path/cycle weight.}
   \item{path_dir}{If a function is provided, used to re-orient the cycle/path. Default function is \code{\link{path_cor}}.}
-  \item{...}{}
+  \item{...}{Ignored.}
 }
 \value{A vector containing a permutation of 1..n}
 \details{Requires package gtools. 

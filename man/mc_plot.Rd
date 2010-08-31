@@ -8,7 +8,7 @@
 \usage{
 mc_plot(data, fit, path = eulerian, col = rainbow(length(data), s = 0.4), levels = c(0.9, 0.95, 0.99), 
 cifunction = function(a, level) TukeyHSD(a, conf.level = level)[[1]], 
-varwidth = TRUE, frame.plot = FALSE, boxwex = 0.3, cex=0.75, zoom=NULL,ci.yusr=NULL,...)
+varwidth = TRUE, frame.plot = FALSE, boxwex = 0.3, cex=0.75, zoom=NULL,ci.yusr=NULL,ci.pos=FALSE,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,6 +24,8 @@ varwidth = TRUE, frame.plot = FALSE, boxwex = 0.3, cex=0.75, zoom=NULL,ci.yusr=N
    \item{cex}{ Passed to  \code{\link{boxplot}}. }
   \item{zoom}{If provided, a numeric vector specifying a subsequence of path to display.}
   \item{ci.yusr}{Specifies the vertical \code{par(usr) } for the confidence intervals. Defaults to max and min. }
+   \item{ci.pos}{If TRUE, all CIs are mu(max) - mu(min), otherwise mu(right) - mu(left). }
+
   \item{...}{ Optional arguments, passed to  \code{path} and \code{\link{overlayCI}}.}
 }
 %\details{
@@ -55,7 +57,7 @@ a <-  aov(sqrt(Survival) ~ Organ,data=cancer)
 dev.new(height=4.5, width=9.5)
 op <- par(no.readonly = TRUE)
 
-par(cex.axis=.75, cex.main = 1.6, cex.lab=1.4)
+par(cex.axis=.75, cex.main = 1.0, cex.lab=1)
 par(mar=c(3,5,3,5))
 
 mc_plot(bx,a,main="Pairwise comparisons of cancer types", ylab="Sqrt Survival")

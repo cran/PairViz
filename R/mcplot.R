@@ -1,5 +1,5 @@
              
-overlayCI <- function(cis, xpos=NULL,ci.cols=NULL,  ci.ex=3, ci.ocol = "steelblue", p.col="grey44",pch=3, sig.col = "red",sig.lwd = 2,yusr=NULL,ci.label="Differences",...)
+overlayCI <- function(cis, xpos=NULL,ci.cols=NULL,  ci.ex=2, ci.ocol = "grey40", p.col="grey40",pch=1, sig.col = "red",sig.lwd = 1,yusr=NULL,ci.label="Differences",ci.cex=0.5,arrow.length=0.1,...)
 {    
 	 # draw the confidence intervals
       npairs <- nrow(cis)
@@ -7,7 +7,7 @@ overlayCI <- function(cis, xpos=NULL,ci.cols=NULL,  ci.ex=3, ci.ocol = "steelblu
           xp <- (1:npairs)+.5
       else xp <- xpos
       if (is.null(yusr)) {
-        yrange <- pretty(range(cis))
+        yrange <- pretty(range(cis,na.rm=TRUE))
         yusr <- c(min(yrange), max(yrange))
         }
       xusr <- par("usr")[1:2]
@@ -23,7 +23,9 @@ overlayCI <- function(cis, xpos=NULL,ci.cols=NULL,  ci.ex=3, ci.ocol = "steelblu
       cis <- cis[,n:1]
       for (lev in 1:nlevels) {
       	  j <- 2*(lev-1)
-	      for (i in 1:length(xp)) {
+      	  
+	      for (i in 1:length(xp)) 
+	      if (!is.na(cis[i,1])) {
 	              lines(c(xp[i],xp[i]),
 	                  cis[i,(1:2) + j],
 	                  col=ci.cols[lev],
@@ -31,25 +33,28 @@ overlayCI <- function(cis, xpos=NULL,ci.cols=NULL,  ci.ex=3, ci.ocol = "steelblu
 		      	   }
 	      }
         for (i in 1:length(xp)) 
+         if (!is.na(cis[i,1]))
        	  lines(c(xp[i]-.2, xp[i]+.2), c(0,0),col=ci.ocol)
-       	if (!is.null(ci.ocol)) arrows(usr[2],0, usr[2]-.5,0, col=ci.ocol)
+       	if (!is.null(ci.ocol)) arrows(usr[2],0, usr[2]-.5,0, col=ci.ocol,length=arrow.length)
 
-       	points(xp, m, col=p.col,pch=pch)       	      
+       	points(xp, m, col=p.col,pch=pch,cex=ci.cex)       	      
        	 limits <- cis[,2:1]  
+       
           for (i in 1:npairs)	{
-          if (limits[i,1]>=0) {
+          
+          if (!is.na(limits[i,1]) && limits[i,1]>=0) {
 		       arrows(xp[i],-limits[i,1], xp[i],0,
-	           col=sig.col, length=.1,lwd=sig.lwd,
+	           col=sig.col, length=arrow.length,lwd=sig.lwd,
 	          lend=2,lty=1)
 		  }
-		  if (limits[i,2]<=0) {
+		  if (!is.na(limits[i,1]) && limits[i,2]<=0) {
 	       arrows(xp[i], -limits[i,2],xp[i], 0,
-	          col=sig.col, length=.1,lwd=sig.lwd,
+	          col=sig.col, length=arrow.length,lwd=sig.lwd,
 	          lend=2,lty=1)
 	      }}
 	     # arrows(length(o)+1,0, length(o)+.5,0, col=ci.ocol,lwd=2)
-          axis(4)
-          axis(4,labels=ci.label,at=0,line=par("mgp")[1]-1,tcl=0, cex.axis=par("cex.lab"))
+          axis(4,col=ci.ocol,col.axis=ci.ocol)
+          axis(4,labels=ci.label,at=0,line=par("mgp")[1]-1,tcl=0, cex.axis=par("cex.lab"),col=ci.ocol,col.axis=ci.ocol)
           invisible()
 	      }
 	      
@@ -57,7 +62,7 @@ overlayCI <- function(cis, xpos=NULL,ci.cols=NULL,  ci.ex=3, ci.ocol = "steelblu
 
 mc_plot <- function(data, fit,path =eulerian, col=rainbow(length(data),s=.4), levels=c(0.90,0.95,0.99), 
 cifunction=function(a,level) TukeyHSD(a,conf.level= level)[[1]],
-varwidth=TRUE,frame.plot=FALSE,boxwex=.3,cex=0.75,zoom=NULL, ci.yusr=NULL,...)  {
+varwidth=TRUE,frame.plot=FALSE,boxwex=.3,cex=0.75,zoom=NULL, ci.yusr=NULL,ci.pos=FALSE,...)  {
 
 	if (is.function(path)){
 		tuk <- cifunction(fit, 0.95)
@@ -81,7 +86,8 @@ varwidth=TRUE,frame.plot=FALSE,boxwex=.3,cex=0.75,zoom=NULL, ci.yusr=NULL,...)  
 	  }
 	  if (!is.null(cis)){
       cis <-cbind(tuk[,1],cis)
-      cis <- path_cis(cis,o)
-      overlayCI(cis,yusr=ci.yusr,...) }
+      cis <- path_cis(cis,o,ci.pos=ci.pos)
+      overlayCI(cis,yusr=ci.yusr,...) 
+     }
       invisible()    		
-	} 	      
+	}	      

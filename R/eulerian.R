@@ -8,7 +8,8 @@ setMethod("eulerian", "numeric",
  function(self,start=NULL,weighted=TRUE){
  	n <- self[1]
  	g <- mk_even_graph(n,weighted=FALSE)
- 	e <-eulerian(g,start,weighted=FALSE)
+ 	if (is.null(start)) start <- "1"
+  	e <-eulerian(g,start,weighted=FALSE)
     return(as.numeric(e))
 })
 
@@ -37,7 +38,7 @@ setMethod("eulerian", "graphNEL",
  function(self,start=NULL,weighted=TRUE){
  	
     if (!isConnected(self)) {
-    	warning("The graph is not connected.")
+    	warning("Graph is not connected: return list of eulerians.")
     	return(eulerians(self,weighted=weighted))
     	}
     
@@ -67,6 +68,9 @@ setMethod("eulerian", "even_graph",
       
 setGeneric("eulerians",function(self, nodes=NULL,weighted=TRUE) standardGeneric("eulerians"))
 
+
+
+
 setMethod("eulerians", "graphNEL", 
    function(self,nodes=NULL,weighted=TRUE){
    
@@ -76,20 +80,17 @@ setMethod("eulerians", "graphNEL",
    	 	}
    	 else {
    	 	snodes <-connComp(self)
-   	 	e <- NULL
+   	 	e <- list()
    	 	for (i in 1:length(snodes)){
    	 		nodes <- snodes[[i]]
    	 		if (length(nodes) <= 2)
-   	 		  e <- c(e,NA,nodes)
-   	 		else {
+   	 		  e <- c(e,list(nodes))
+   	 		else if (length(nodes) > 2) {
    	 		  g <- subGraph(nodes,self) 
-   	 		   e <- c(e,NA,eulerian(g,weighted))}
+   	 		   e <- c(e,list(eulerian(g,weighted)))}
    	 		}
-   	 	return(e[-1])}
+   	 	return(e)}
 })
-
-
-
 
 
  		

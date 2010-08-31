@@ -28,7 +28,7 @@ path, otherwise concatenates the rows into a vector.}
 If \code{FALSE}, returned paths are open. Defaults to \code{TRUE} for odd n,\code{FALSE} for even n. }
   \item{path1}{A vector- This  will be the first hamiltonian of the returned hamiltonian decomposition.}
   \item{paths}{A matrix where each row is a hamiltonian.}
-  \item{...}{}
+  \item{...}{Ignored.}
  }
 \value{A numeric matrix where each row  contains a permutation of 1..n, or these rows concatenated into a vector if \code{matrix=FALSE}.}
 \details{
@@ -77,4 +77,3 @@ hpaths(1:7)
 
 }
 
-\keyword{}

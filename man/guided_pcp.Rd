@@ -1,15 +1,17 @@
 \name{guided_pcp}
 \alias{guided_pcp}
+
 \title{ Guided parallel coordinate plot. }
 \description{
  Draws a parallel coordinate plot, with an accompanying barchart showing an index (eg correlation, scagnostics) levels for each panel. An index legend is optional.
 }
 \usage{
-guided_pcp(data, edgew=NULL, path = NULL, pathw=NULL,zoom=NULL,pcpfn=pv_pcp,
-     pcp.col = 1,lwd=0.5, panel.colors=NULL, pc.mar=c(1.5,2,2,2),
-     bar.col=1:9,bar.axes=FALSE, bar.mar=NULL, reorder.weights=TRUE,
+guided_pcp(data, edgew=NULL, path = NULL, pathw=NULL,zoom=NULL,pcpfn=pcp,
+     pcp.col = 1,lwd=0.5, panel.colors=NULL, pcp.mar=c(1.5,2,2,2), pcp.scale=TRUE,
+     bar.col=1:9,bar.axes=FALSE, bar.mar=NULL,bar.ylim=NULL, reorder.weights=TRUE,
     layout.heights=NULL, layout.widths=c(10,1),
-     main=NULL,legend=FALSE,cex.legend = 1,legend.mar=c(1,4,1,1),...)}
+     main=NULL,legend=FALSE,cex.legend = 1,legend.mar=c(1,4,1,1),...)
+     }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{ A data frame or matrix. }
@@ -21,10 +23,12 @@ guided_pcp(data, edgew=NULL, path = NULL, pathw=NULL,zoom=NULL,pcpfn=pv_pcp,
   \item{pcp.col}{ Line colors.  }
   \item{lwd}{ Line widths. }
   \item{panel.colors}{Background panel colors, passed to the\code{pcpfn} }
-  \item{pc.mar}{Controls PCP margin size. }
+  \item{pcp.mar}{Controls PCP margin size. }
+   \item{pcp.scale}{If TRUE, the variables will be scaled to 0-1 range, otherwise the data is not scaled. }
  \item{bar.col}{Bar colors. }
 \item{bar.axes}{Draw barplot axes, if TRUE. }
   \item{bar.mar}{Controls barplot margin size. }
+   \item{bar.ylim}{Vertical limits of bar plot. }
    \item{reorder.weights}{If TRUE, reorder barplot indices so large values are drawn at the bottom. }
 \item{layout.heights}{Controls the layout.}
 \item{layout.widths}{Controls the layout.}
@@ -47,7 +51,7 @@ guided_pcp(data, edgew=NULL, path = NULL, pathw=NULL,zoom=NULL,pcpfn=pv_pcp,
 \references{see \link{overview}}
 
 \author{ C.B. Hurley and R.W. Oldford }
-\seealso{\code{\link{pv_pcp}}}
+\seealso{\code{\link{pcp}},\code{\link{catpcp}}}
 
 \examples{
 	 			
@@ -78,7 +82,7 @@ guided_pcp(data,edgew, pcp.col=cols,
 dev.new(width=7,height=3)
 par(cex.axis=.65)
 
-guided_pcp(data,edgew, path=eulerian, pcp.col=cols,
+guided_pcp(data,edgew, path=eulerian, pcp.col=cols,lwd=2,
          main="Correlation guided Eulerian PCP",bar.col = c("blue","purple"),bar.axes=TRUE)
 
 

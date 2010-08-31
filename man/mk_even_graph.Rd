@@ -16,18 +16,18 @@ The resulting graph yields an euler tour.}
 \describe{
 
 
-\item{self = "graphNEL",use\_weights=TRUE,add\_edges=TRUE}{ This is the workhorse method. If \code{self} does not satisfy \code{is_even_graph}, the graph is forced to be even by one of the folowing. If add\_edges is TRUE, the odd nodes are paired off and a new edge added between each  pair, possibly duplicating an existing edge. If add\_edges is a vector of the odd nodes, they are paired off in this order.
-	If add\_edges is FALSE a new dummy node is added with
+\item{self = "graphNEL",use_weights=TRUE,add_edges=TRUE}{ This is the workhorse method. If \code{self} does not satisfy \code{is_even_graph}, the graph is forced to be even by one of the folowing. If add_edges is TRUE, the odd nodes are paired off and a new edge added between each  pair, possibly duplicating an existing edge. If add_edges is a vector of the odd nodes, they are paired off in this order.
+	If add_edges is FALSE a new dummy node is added with
 edges going to all odd nodes.  }
 
-\item{self = "matrix",use\_weights=TRUE,add\_edges=TRUE}{ first constructs a complete graph using \code{mk_complete_graph}, which is then augmented to be even. }
+\item{self = "matrix",use_weights=TRUE,add_edges=TRUE}{ first constructs a complete graph using \code{mk_complete_graph}, which is then augmented to be even. }
 
 
-\item{self = "numeric",use\_weights=FALSE,add\_edges=TRUE}{ first constructs a complete graph using  \code{mk_complete_graph}, which is then augmented to be even. }
+\item{self = "numeric",use_weights=FALSE,add_edges=TRUE}{ first constructs a complete graph using  \code{mk_complete_graph}, which is then augmented to be even. }
 
-\item{self = "ANY",use\_weights=TRUE,add\_edges=TRUE}{ first constructs a complete graph using  \code{mk_complete_graph}, which is then augmented to be even. }
+\item{self = "ANY",use_weights=TRUE,add_edges=TRUE}{ first constructs a complete graph using  \code{mk_complete_graph}, which is then augmented to be even. }
 
-\item{self = "even\_graph",add\_edges=TRUE}{ returns self.}
+\item{self = "even_graph",add_edges=TRUE}{ returns self.}
 
 
 }}
