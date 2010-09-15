@@ -133,6 +133,10 @@ mk_complete_graph <- function(d){
 
   if (length(d) == 1) 
   	g <- kn(d)
+  else if (is.character(d)) {
+  	g <- kn(length(d))
+  	nodes(g) <- d
+  	}
   else {
   d <- as.matrix(d)
   n <- nrow(d)

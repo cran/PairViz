@@ -6,3 +6,4 @@ stepwise         Uses eulerians  for regression model comparisonstableplot     
 cat_pcp          A variant of parallel coordinates for categorical data
 rating           PCP for rater agreement
 demo_fns         Utility functions for demos
+nav              Constructs some of the graphs used in "Graphs as navigational infrastructure for high dimensional data spaces."
