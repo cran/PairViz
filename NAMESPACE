@@ -18,7 +18,7 @@ export(
     edge2dist,dist2edge, find_path,
     path_weights, path_cis,
     nnodes,path_cor,pcp,catpcp, rater_spreadout, factor_spreadout,
-    mk_hypercube_graph, mk_line_graph,graph_product,knn_graph,dn_graph, kspace_graph, bipartite_graph, graph_compose,iterated_line_graph
+    mk_hypercube_graph, mk_line_graph,graph_product,graph_sum,knn_graph,dn_graph, kspace_graph, bipartite_graph, graph_compose,iterated_line_graph
     )
     
 exportClasses(even_graph) 

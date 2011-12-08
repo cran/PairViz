@@ -1,6 +1,6 @@
 pcp <- 
 function (data, order = NULL, panel.colors = NULL, col = 1, lty = 1, 
-    horizontal = TRUE, mar = NULL, scale=TRUE,axis.width=0,...) 
+    horizontal = TRUE, mar = NULL, scale=TRUE,axis.width=0,axis.grid.col="grey70",connect=TRUE,...) 
 {
     if (is.null(mar)) 
         if (horizontal == TRUE) 
@@ -40,10 +40,16 @@ function (data, order = NULL, panel.colors = NULL, col = 1, lty = 1,
         if (!(is.null(panel.colors))) 
             for (i in 1:(p - 1)) rect(i, 0, i + 1, 1, lty = 0, 
                 col = panel.colors[i])
-        for (i in 1:p) lines(c(i, i), linesr, col = "grey70")
-        
-        matpoints(indx, t(bx), type = "l", col = col, lty = lty, pch=pts,
-            ...)
+         if (!is.null(axis.grid.col))
+        for (i in 1:p) lines(c(i, i), linesr, col = axis.grid.col)
+        if (connect)
+        matpoints(indx, t(bx), type = "l", col = col, lty = lty, pch=pts,...)
+        else if (axis.width == 0)
+        matpoints(indx, t(bx),  col = col,  pch=pts,...)
+         else for (i in seq(1,length(indx),2))
+                  matpoints(indx[i:(i+1)], t(bx[,i:(i+1)]), type = "l", col = col, lty = lty, pch=pts,...)
+         
+            
             }
     else {
         matplot(t(bx), rev(indx), xlab = "", ylab = "", axes = FALSE, 
@@ -52,12 +58,20 @@ function (data, order = NULL, panel.colors = NULL, col = 1, lty = 1,
         if (!(is.null(panel.colors))) 
             for (i in 1:(p - 1)) rect(0, i, 1, i + 1, lty = 0, 
                 col = panel.colors[p - i])
-        for (i in 1:p) lines(linesr, c(i, i), col = "grey70")
-        matpoints(t(bx), rev(indx), type = "l", col = col, lty = lty, pch=pts,
-            ...)
+        if (!is.null(axis.grid.col))
+          for (i in 1:p) lines(linesr, c(i, i), col = axis.grid.col)
+        if (connect)
+        matpoints(t(bx), rev(indx), type = "l", col = col, lty = lty, pch=pts, ...)
+        else if (axis.width == 0)
+        matpoints(t(bx), rev(indx),  col = col,  pch=pts,...)
+        else for (i in seq(1,length(indx),2))
+                matpoints(t(bx[,i:(i+1)]), rev(indx[i:(i+1)]), type = "l", col = col, lty = lty, pch=pts, ...)
+            
+            
     }
     invisible()
 }
+
 
     
     

@@ -85,15 +85,15 @@ dev.new(width=8,height=3)
 
 
 par(tcl = -.2, cex.axis=.4,mgp=c(3,.3,0),cex.main=.8)
-pcp0 <- function(...){pv_pcp(...)
+pcp0 <- function(...){pcp(...)
 	abline(h=0,col="grey70",lwd=2)}
 
 cols <- desaturate_color(rainbow(10,alpha=0.7))
 cols <- cols[cut(rank(res[,"ABCD"]),10,labels=FALSE)]
 
-guided_pcp(res,path=match(o,nodes(g)),scale=FALSE,pathw=ew,bar.col="#FDCDAC",pcpfn=pcp0,lwd=2,pcp.col=cols,main="Sleep data: Model residuals.",pc.mar=c(1,1,1.5,1))
+guided_pcp(res,path=match(o,nodes(g)),pathw=ew,bar.col="#FDCDAC",pcp.scale=FALSE,pcpfn=pcp0,lwd=2,pcp.col=cols,main="Sleep data: Model residuals.",pcp.mar=c(1,1,1.5,1))
 
-guided_pcp(res,path=match(o,nodes(g)),scale=FALSE,pathw=ew,bar.col="grey80",pcpfn=pcp0,lwd=1,pcp.col="grey40",main="Sleep data: Model residuals.",pc.mar=c(1,1,1.5,1))
+guided_pcp(res,path=match(o,nodes(g)),pcp.scale=FALSE,pathw=ew,bar.col="grey80",pcpfn=pcp0,lwd=1,pcp.col="grey40",main="Sleep data: Model residuals.",pcp.mar=c(1,1,1.5,1))
 
 
 
@@ -127,7 +127,7 @@ dev.new(width=8,height=3)
 
 par(tcl = -.2, cex.axis=.4,mgp=c(3,.3,0))
 
-guided_pcp(res,path=match(o,nodes(g1)),scale=FALSE,pathw=ew,bar.col="#FDCDAC",pcpfn=pcp0,lwd=2,pcp.col=cols,main="Sleep data: Model residuals.",pc.mar=c(1,1,2,1))
+guided_pcp(res,path=match(o,nodes(g1)),pcp.scale=FALSE,pathw=ew,bar.col="#FDCDAC",pcpfn=pcp0,lwd=2,pcp.col=cols,main="Sleep data: Model residuals.",pcp.mar=c(1,1,2,1))
 
 
 
@@ -144,7 +144,8 @@ for (n in nodes(g1)) {
 o <- eulerian(g1,start="ABCD")
 
 ew <- NULL	
-for (i in 2:length(o)) ew <- c(ew,sse[o[i]] - sse[o[i-1]])
+for (i in 2:length(o)) ew <- c(ew,
+  nodeData(g1,o[i],"sse")[[1]] - nodeData(g1,o[i-1],"sse")[[1]])
 
 ecols <- rep("#FDCDAC",length(ew))
 
@@ -158,11 +159,8 @@ ecols[10] <- "grey70"
 dev.new(width=5,height=3)
 
 par(tcl = -.2, cex.axis=.4,mgp=c(3,.3,0))
-pcp0 <- function(...){pv_pcp(...)
-	abline(h=0,col="grey70",lwd=2)}
 
-guided_pcp(res,path=match(o,nodes(g)),scale=FALSE,pathw=ew,bar.col=ecols,pcpfn=pcp0,lwd=2,pcp.col=cols,main="Sleep data: Model residuals.",pc.mar=c(1,1,2,1))
-
+guided_pcp(res,path=match(o,nodes(g)),pcp.scale=FALSE,pathw=ew,bar.col=ecols,pcpfn=pcp0,lwd=2,pcp.col=cols,main="Sleep data: Model residuals.",pcp.mar=c(1,1,2,1))
 
 
 

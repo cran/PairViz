@@ -11,9 +11,9 @@ may be reordered and panels colored in the display.
 
 catpcp draws a parallel coordinate plot variant for categorical data.}
 \usage{
-pcp(data, order = NULL, panel.colors = NULL, col = 1, lty = 1, horizontal = TRUE, mar = NULL, scale = TRUE, axis.width = 0, ...)
+pcp(data, order = NULL, panel.colors = NULL, col = 1, lty = 1, horizontal = TRUE, mar = NULL, scale = TRUE, axis.width = 0,axis.grid.col="grey70",connect=TRUE, ...)
 
-catpcp(data, order = NULL, pcpbars, barvars = 1:ncol(data), pcpbars.border = "black", pcpbars.col = NULL, pcpbars.labels = FALSE, pcpbars.axis.at = NULL, pcpbars.axis.labels = NULL, axis.width = 0.2, ...)
+catpcp(data, order = NULL, pcpbars, barvars = 1:ncol(data), pcpbars.border = "black", pcpbars.col = NULL, pcpbars.labels = FALSE, pcpbars.axis.at = NULL, pcpbars.axis.labels = NULL, axis.width = 0.2,connect=TRUE, ...)
 
 
 }
@@ -33,7 +33,9 @@ recycled as necessary for each observation.  }
 If TRUE, the variables are scaled to the unit interval.}
   \item{axis.width}{Width of each of the parallel axes.
 }
-
+ \item{axis.grid.col}{Color of variable axes. Use NULL for no axes.}
+\item{connect}{If FALSE, line segments are not connected. Points are drawn if axis.width=0.
+}
   \item{pcpbars}{A list, with one component per barvar. Component i is a matrix with the bottom and top of the bars for that variable.}
   \item{barvars}{Categorical variables where overlayed bars show the level frequency.}
   \item{pcpbars.border}{Border colour of the bars.}
@@ -44,7 +46,7 @@ If TRUE, the variables are scaled to the unit interval.}
   \item{pcpbars.axis.at}{Axis label positions for the bars.
 }
   \item{pcpbars.axis.labels}{Axis label text for the bars.}
-   \item{\dots}{ other parameters.}
+   \item{\dots}{ other parameters, passed to pcp by catpcp}
 
 }
 \examples{

@@ -96,7 +96,7 @@ guided_pcp(data,edgew, path=o,pcp.col=cols,lwd=1.4,
 
 
 
-o <- find_path(-corw,   order_best,maxexact=10)
+#o <- find_path(-corw,   order_best,maxexact=10)
 # answer is ...
 o <-  c(8, 10,  9,  4 , 5,  7,  6,  2,  3,  1) 
 dev.new(width=6.5,height=3)

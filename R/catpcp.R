@@ -9,11 +9,10 @@ factor_spreadout <- function(d){
 	n <- nrow(d)
 	dint <-apply(d,2,rank,ties.method="first") #maps the categorical variables to 1..n
 	dint <- dint/n
-	dtab <- sapply(d, table)
+	dtab <- lapply(d, table)
 	tops <- lapply(dtab, function(x) cumsum(x)/n)
 	bots <- lapply(tops, function(x) c(0,x[-length(x)]))
-	bars <- mapply(cbind,bots,tops)
-	bars <- mapply(cbind,bots, tops)
+	bars <- mapply(cbind,bots,tops,SIMPLIFY=FALSE)
     for (i in 1:length(tops))
       rownames(bars[[i]]) <- names(tops[[i]])
 	return(list(data=dint,bars=bars))
@@ -21,8 +20,9 @@ factor_spreadout <- function(d){
 	
 
 
-rater_spreadout <- function(d,levs, minspace=NULL){
-	dtab <- sapply(as.data.frame(d), function(x) table(factor(x,levels=levs)))
+rater_spreadout <- function(d,levs, minspace=NULL, scale=FALSE){
+	d <- as.data.frame(d)
+	dtab <- sapply(d, function(x) table(factor(x,levels=levs)))
 
    if (is.null(minspace))
 	minspace <- max((dtab[-1,]+dtab[-nrow(dtab),])/2)*1.1
@@ -31,6 +31,13 @@ rater_spreadout <- function(d,levs, minspace=NULL){
      barw <- dtab/minspace
     barb <- barc - barw/2
     bart <- barc+barw/2
+    if (scale){
+    	m1 <- rep(min(barb),ncol(barb))
+    	m2 <- rep(max(bart),ncol(bart))
+    	barb <- scale(barb,center=m1,scale=m2)
+    	bart <- scale(bart,center=m1,scale=m2)
+    	barc <- scale(barc,center=m1,scale=m2)
+    	}
 	dnew <- d
 	for (j in 1:ncol(dtab)){
 		  x <- d[,j]
@@ -71,9 +78,9 @@ axis_bars <- function(bars,o,barvars=sort(unique(o)),width=.2){
 	
 
 
-catpcp <- function (data, order = NULL, pcpbars, barvars=1:ncol(data), pcpbars.border="black",pcpbars.col=NULL,pcpbars.labels=FALSE,pcpbars.axis.at=NULL,pcpbars.axis.labels=NULL,axis.width=.2,...) {
+catpcp <- function (data, order = NULL, pcpbars, barvars=1:ncol(data), pcpbars.border="black",pcpbars.col=NULL,pcpbars.labels=FALSE,pcpbars.axis.at=NULL,pcpbars.axis.labels=NULL,axis.width=.2,connect=TRUE,...) {
     	
-    	pcp(data,order,axis.width=axis.width,...)
+    	pcp(data,order,axis.width=axis.width,connect=connect,...)
     	oldxpd <- par("xpd")
         par("xpd"=TRUE) 
         if (is.null(order)) 

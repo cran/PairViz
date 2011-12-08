@@ -1,7 +1,12 @@
 
 
-
 mk_hypercube_graph <- function(n,sep="")	{
+	mk_binary_graph(n,sep,delta=1)
+	}
+
+
+
+mk_binary_graph <- function(n,sep="",delta=1,test=`==`)	{
   
   binary <- function(x,n){
      ans <- rep(0,n)
@@ -26,18 +31,19 @@ mk_hypercube_graph <- function(n,sep="")	{
      nnames <- apply(id,1, function(x) do.call("paste",as.list(c(x,sep=sep))))
   else
      nnames <- c("0", apply(id[-1,],1, 
-      function(x) do.call("paste",as.list(c(nodeid[as.logical(rev(x))],sep="")))))
+      function(x) do.call("paste",as.list(c(nodeid[as.logical(rev(x))],sep=sep)))))
 
   g <- new("graphNEL", nodes=nnames)
-  k <- 1
   for (i in 1:(length(nnames)-1)){
     x <- nnames[i]
     for (j in (i+1):length(nnames)) {
     	y <- nnames[j]
-  	    if (sum(abs(id[i,] - id[j,])) ==1)
-  	    g <-addEdge(x,y,g)
-  	    k <- k+1
- 	}
+    	diff <- id[i,] - id[j,]
+  	    if (all(diff>=0) | all(diff <=0)){
+  	    	if(test(sum(abs(diff)),delta))
+  	    	  g <-addEdge(x,y,g)
+  	     	 	}
+ }
  }
  return(g)
 }
@@ -160,14 +166,33 @@ knn_graph <- function(g,k=2)	{
     }
     
     
-dn_graph <- function(g,d=1, test="<=")	{
+dn_graph <- function(g,d=1, test=`<=`)	{
 	e <- edgeMatrix(g,duplicates=FALSE)
 	ew <- eWV(g,e)
 	e <- matrix(nodes(g)[e],ncol=2,byrow=TRUE)
-	x <- do.call(test, list(ew,d))
+	x <- test(ew,d)
 	return(ftM2graphNEL(e[x,],ew[x],edgemode="undirected"))
 	}
 	     
+	
+	
+graph_sum <- function(g,h, combineWeight=`+`)	{
+	# computes a new graph with nodes and vertices the union of those in g1 and g2.
+	# weights of common edges are combined using the combineWeight function
+	eg <- edgeMatrix(g,duplicates=FALSE)
+	wg <- eWV(g,eg)
+	eh <- edgeMatrix(h,duplicates=FALSE)
+	wh <- eWV(h,eh)
+	m <- match(lapply(1:ncol(eg), function(i) eg[,i]),lapply(1:ncol(eh), function(i) eh[,i]))
+	m <- na.omit(cbind(1:ncol(eg), m))
+	eg <- matrix(nodes(g)[eg],ncol=2,byrow=TRUE)
+	eh <- matrix(nodes(h)[eh],ncol=2,byrow=TRUE)
+	e <- rbind(eg,eh[-m[,2],])
+	wg[m[,1]] <- combineWeight(wg[m[,1]], wh[m[,2]])
+	ew <- c(wg,wh[-m[,2]])
+	
+	return(ftM2graphNEL(e,ew,edgemode="undirected"))
+	}
 
 
 bipartite_graph <- function(n1,n2){

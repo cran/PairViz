@@ -41,13 +41,19 @@ order_best <- function(d, maxexact=9,nsamples=50000,path_weight=sum,cycle=FALSE,
 #--------------------------------------------
 
 	
+# path_values <- function(path,d,cycle=FALSE)  {
+	# n <- length(path)
+	# o <- cbind(path[-n],path[-1])
+	# if (cycle) path <- rbind(path,c(path[n],path[1]))
+	# return(d[o])	
+	# }
+
 path_values <- function(path,d,cycle=FALSE)  {
 	n <- length(path)
 	o <- cbind(path[-n],path[-1])
-	if (cycle) path <- rbind(path,c(path[n],path[1]))
+	if (cycle) o <- rbind(o,c(path[n],path[1]))
 	return(d[o])	
 	}
-
 
 
 best_orientation <- function(path,d, cycle=FALSE, path_dir= path_cor,from=NULL){

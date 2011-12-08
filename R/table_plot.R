@@ -34,8 +34,8 @@ table_plot <- function(rectw,recth,col="grey50",gapx=NULL,gapy=NULL,spacex=0.03,
 	  	  rectw <- fill_rows(recth,rectw)
 	  	  
 	if (!is.matrix(recth) && !is.matrix(rectw)){
-		x <- matrix(0,nrow=length(recth),ncol=length(rectw))
-		rectw <- fill_rows(x,rectw)
+		x <- matrix(0,nrow=length(rectw),ncol=length(recth))
+		rectw <- fill_cols(x,rectw)
 		recth <- fill_rows(x,recth)
 		
 		}
@@ -55,21 +55,22 @@ table_plot <- function(rectw,recth,col="grey50",gapx=NULL,gapy=NULL,spacex=0.03,
      else if (xjust=="right") fx <- c(0,1)
     else fx <- c(1,0)
      
-    if (is.null(gapy))
+    if (is.null(gapy) && nrow(bary)>1)
       for (i in (2:nrow(bary))) gapy <- c(gapy, max(fy[1]*recth[i-1,] + fy[2]*recth[i,],na.rm = TRUE ))
-     if (is.null(gapx)) 
+     if (is.null(gapx) && ncol(barx)>1) 
       for (j in (2:ncol(barx))) gapx <- c(gapx, max(fx[1]*rectw[,j-1] + fx[2]*rectw[,j],na.rm = TRUE ))
-   
-     if (yjust == "none")
-     for (i in (2:nrow(bary))) bary[i,] <- bary[i-1,] + recth[i-1,] + spacey
-     else
-     for (i in (2:nrow(bary))) bary[i,] <- bary[i-1,] + gapy[i-1] + spacey
-     
-     if (xjust == "none")
-     for (j in (2:ncol(barx))) barx[,j] <- barx[,j-1] + rectw[,j-1] + spacex
-     else
-     for (j in (2:ncol(barx))) barx[,j] <- barx[,j-1] + gapx[j-1] + spacex
-
+     if (nrow(bary) > 1){
+       if (yjust == "none")
+       for (i in (2:nrow(bary))) bary[i,] <- bary[i-1,] + recth[i-1,] + spacey
+       else
+       for (i in (2:nrow(bary))) bary[i,] <- bary[i-1,] + gapy[i-1] + spacey
+     }
+     if (ncol(barx) > 1){
+       if (xjust == "none")
+       for (j in (2:ncol(barx))) barx[,j] <- barx[,j-1] + rectw[,j-1] + spacex
+       else
+       for (j in (2:ncol(barx))) barx[,j] <- barx[,j-1] + gapx[j-1] + spacex
+     }
      
     
      barl <- barx - rectw*fx[2]	
@@ -109,10 +110,15 @@ table_plot <- function(rectw,recth,col="grey50",gapx=NULL,gapy=NULL,spacex=0.03,
        }
      rect(barl, barb,barr,bart,col=col)
      
-     if (!is.null(colnames(rectw)))
-        axis(1,labels=colnames(rectw),at=barx[1,],tcl=0,lwd=0)
-     if (!is.null(rownames(rectw)))
-        axis(2,labels=rownames(rectw),at=bary[,1],tcl=0,lwd=0,las=2)
+     lab1 <- colnames(rectw)
+     if (is.null(lab1)) lab1 <- colnames(recth)
+     if (!is.null(lab1))
+        axis(1,labels=lab1,at=barx[1,],tcl=0,lwd=0)
+        
+     lab2 <- rownames(rectw)
+     if (is.null(lab2)) lab2 <- rownames(recth)    
+     if (!is.null(lab2))
+        axis(2,labels=lab2,at=bary[,1],tcl=0,lwd=0,las=2)
       return(NULL)
       }
       else{ 

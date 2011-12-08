@@ -3,8 +3,7 @@
 library(PairViz)	 			
 #############################
 
-data(cancer)
-
+data(cancer, package="PairViz")
 
 bx <- with(cancer, split(sqrt(Survival),Organ))
 a <-  aov(sqrt(Survival) ~ Organ,data=cancer)
@@ -12,7 +11,6 @@ a <-  aov(sqrt(Survival) ~ Organ,data=cancer)
 dev.new(height=3, width=3)
 par(mar=c(3,4.8,2,1),cex.main=.75,mgp=c(1.5, .5, 0),cex.axis=.6,cex.lab=.75)
 
-foo(TukeyHSD(a,conf.level = 0.95),las=1,tcl = -.3)
 
 plot(TukeyHSD(a,conf.level = 0.95),las=1,tcl = -.3)
 
@@ -22,19 +20,19 @@ abline(h = 1:10, col = "grey85", lty=1) # should not need
 
 
 #############################
-library(HH)
-mm <- glht.mmc(a, linfct = mcp(Organ = "Tukey"))
-dev.new(height=4, width=5)
+# library(HH)
+# mm <- glht.mmc(a, linfct = mcp(Organ = "Tukey"))
+# dev.new(height=4, width=5)
 
 
 
 
-dev.new(height=6.5, width=9)
-par(mgp=c(2, .5, 0),mar=c(3,4,3,8))
+# dev.new(height=6.5, width=9)
+# par(mgp=c(2, .5, 0),mar=c(3,4,3,8))
 
-plot(mm, x.offset=1,main="95% family-wise confidence level",main2.method.phrase="",xlab = "Differences in mean sqrt Survival",col.mca.signif="red")
-par(mgp=c(3, .5, 0))
-title(ylab="Mean sqrt Survival")
+# plot(mm, x.offset=1,main="95% family-wise confidence level",main2.method.phrase="",xlab = "Differences in mean sqrt Survival",col.mca.signif="red")
+# par(mgp=c(3, .5, 0))
+# title(ylab="Mean sqrt Survival")
 
 
 #############################
