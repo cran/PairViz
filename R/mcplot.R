@@ -58,36 +58,76 @@ overlayCI <- function(cis, xpos=NULL,ci.cols=NULL,  ci.ex=2, ci.ocol = "grey40",
           invisible()
 	      }
 	      
-	      
-
-mc_plot <- function(data, fit,path =eulerian, col=rainbow(length(data),s=.4), levels=c(0.90,0.95,0.99), 
-cifunction=function(a,level) TukeyHSD(a,conf.level= level)[[1]],
-varwidth=TRUE,frame.plot=FALSE,boxwex=.3,cex=0.75,zoom=NULL, ci.yusr=NULL,ci.pos=FALSE,...)  {
-
-	if (is.function(path)){
-		tuk <- cifunction(fit, 0.95)
+mc_plot<- 
+  function(data, fit,path =eulerian, col=rainbow(length(data),s=.4), 
+           levels=c(0.90,0.95,0.99), 
+           varwidth=TRUE,frame.plot=FALSE,boxwex=.3,cex=0.75,zoom=NULL, ci.yusr=NULL,ci.pos=FALSE,...)  {
+    # fit is either an aov, or else  a matrix with columns estimate, followed by confidence intervals
+    # if fit is not an aov, path should also be provided
+    cifunction<- function(a,level) TukeyHSD(a,conf.level= level)[[1]]
+    
+    if (is.function(path) & inherits(fit, "aov")){
+      tuk <- cifunction(fit, 0.95)
       # put p-values into distance matrix and order them
       d <- edge2dist(tuk[,4])
       o <- path(d)
-      }
-      else o <- path
-      if (is.null(o)) o <- 1:length(data)
-      if (!is.null(zoom)) {
-    	o <- o[zoom]
-    	}
-       bp <-boxplot(data[o],col=col[o],varwidth=varwidth,
-             frame.plot=frame.plot,boxwex=boxwex,cex=cex,...)
-      
+    }
+    else o <- path
+    if (is.null(o)) 
+      stop("No path provided or calculted")
+    if (!is.null(zoom)) {
+      o <- o[zoom]
+    }
+    bp <-boxplot(data[o],col=col[o],varwidth=varwidth,
+                 frame.plot=frame.plot,boxwex=boxwex,cex=cex,...)
+    
+    if (inherits(fit, "aov")){
       nlevels <- length(levels)
       cis <- NULL
       for (lev in levels) {
-	      tuk <- cifunction(fit,lev)
-	      cis <- cbind(cis,tuk[,2:3])
-	  }
-	  if (!is.null(cis)){
+        tuk <- cifunction(fit,lev)
+        cis <- cbind(cis,tuk[,2:3])
+      }
       cis <-cbind(tuk[,1],cis)
+    }
+    else cis <- fit
+    
+    if (!is.null(cis)){
+      
       cis <- path_cis(cis,o,ci.pos=ci.pos)
       overlayCI(cis,yusr=ci.yusr,...) 
-     }
-      invisible()    		
-	}	      
+    }
+    invisible()    		
+  }	      
+
+# mc_plot <- function(data, fit,path =eulerian, col=rainbow(length(data),s=.4), levels=c(0.90,0.95,0.99), 
+# cifunction=function(a,level) TukeyHSD(a,conf.level= level)[[1]],
+# varwidth=TRUE,frame.plot=FALSE,boxwex=.3,cex=0.75,zoom=NULL, ci.yusr=NULL,ci.pos=FALSE,...)  {
+# 
+# 	if (is.function(path)){
+# 		tuk <- cifunction(fit, 0.95)
+#       # put p-values into distance matrix and order them
+#       d <- edge2dist(tuk[,4])
+#       o <- path(d)
+#       }
+#       else o <- path
+#       if (is.null(o)) o <- 1:length(data)
+#       if (!is.null(zoom)) {
+#     	o <- o[zoom]
+#     	}
+#        bp <-boxplot(data[o],col=col[o],varwidth=varwidth,
+#              frame.plot=frame.plot,boxwex=boxwex,cex=cex,...)
+#       
+#       nlevels <- length(levels)
+#       cis <- NULL
+#       for (lev in levels) {
+# 	      tuk <- cifunction(fit,lev)
+# 	      cis <- cbind(cis,tuk[,2:3])
+# 	  }
+# 	  if (!is.null(cis)){
+#       cis <-cbind(tuk[,1],cis)
+#       cis <- path_cis(cis,o,ci.pos=ci.pos)
+#       overlayCI(cis,yusr=ci.yusr,...) 
+#      }
+#       invisible()    		
+# 	}	      

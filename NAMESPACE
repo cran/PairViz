@@ -1,6 +1,11 @@
+import(graphics)
 import(graph,TSP)
 importFrom(gtools,permutations)
+import(grDevices)
+import(methods)
+import(stats)
 
+importFrom("utils", "combn")
 export(
     zigzag,
     hpaths,
@@ -17,7 +22,7 @@ export(
     edge_index, 
     edge2dist,dist2edge, find_path,
     path_weights, path_cis,
-    nnodes,path_cor,pcp,catpcp, rater_spreadout, factor_spreadout,
+    nnodes,path_cor,pcp,catpcp, rater_spreadout, factor_spreadout,mk_binary_graph,
     mk_hypercube_graph, mk_line_graph,graph_product,graph_sum,knn_graph,dn_graph, kspace_graph, bipartite_graph, graph_compose,iterated_line_graph
     )
     

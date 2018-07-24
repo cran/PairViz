@@ -6,7 +6,8 @@ Returns a modified version of \code{paths}, where
 component paths/cycles are re-oriented so low weight edges occur first, and the component paths/cycles are then permuted so low-weight paths are first. 
 }
 \usage{
-weighted_hpaths(d, path1 = NULL, paths=NULL, matrix=TRUE, cycle=NULL, path_weight=sum, path_dir = path_cor,...)
+weighted_hpaths(d, path1 = NULL, paths=NULL, matrix=TRUE, cycle=NULL, 
+path_weight=sum, path_dir = path_cor,...)
 }
 \arguments{
   \item{d}{A \code{dist}, used to provide edge weights.}

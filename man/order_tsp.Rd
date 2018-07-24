@@ -5,7 +5,7 @@
 Returns shortest cycle or path via tsp solver from package TSP
 }
 \usage{
-order_tsp(d, method = "nearest", cycle=TRUE,improve=FALSE,path_dir = path_cor,...)
+order_tsp(d, method = "nearest", cycle=FALSE,improve=FALSE,path_dir = path_cor,...)
 }
 \arguments{
   \item{d}{A \code{dist}, used to provide edge weights.}

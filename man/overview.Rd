@@ -19,10 +19,12 @@
 
 \references{C.B. Hurley and R.W. Oldford,
 Pairwise display of high dimensional information via 
-Eulerian tours and Hamiltonian decompositions. 2008 submitted. 
+Eulerian tours and Hamiltonian decompositions. Journal of Computational and Graphical Statistics.
+19(10), pp. 861--886, 2010.
 
-C.B. Hurley and R.W. Oldford,
-Eulerian tour algorithms for dta visualization and the PairViz package. 2008 submitted.
+C.B. Hurley and R.W. Oldford, 
+Eulerian tour algorithms for data visualization and the PairViz package. 
+Computational Statistics, 26(4), pp 613--633, 2011. 
 }
 
 \keyword{graphs}

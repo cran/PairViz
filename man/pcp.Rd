@@ -11,9 +11,14 @@ may be reordered and panels colored in the display.
 
 catpcp draws a parallel coordinate plot variant for categorical data.}
 \usage{
-pcp(data, order = NULL, panel.colors = NULL, col = 1, lty = 1, horizontal = TRUE, mar = NULL, scale = TRUE, axis.width = 0,axis.grid.col="grey70",connect=TRUE, ...)
+pcp(data, order = NULL, panel.colors = NULL, col = 1, lty = 1, 
+horizontal = TRUE, mar = NULL, scale = TRUE, axis.width = 0,
+axis.grid.col="grey70",connect=TRUE, ...)
 
-catpcp(data, order = NULL, pcpbars, barvars = 1:ncol(data), pcpbars.border = "black", pcpbars.col = NULL, pcpbars.labels = FALSE, pcpbars.axis.at = NULL, pcpbars.axis.labels = NULL, axis.width = 0.2,connect=TRUE, ...)
+catpcp(data, order = NULL, pcpbars, barvars = 1:ncol(data), 
+pcpbars.border = "black", pcpbars.col = NULL, pcpbars.labels = FALSE, 
+pcpbars.axis.at = NULL, pcpbars.axis.labels = NULL, 
+axis.width = 0.2,connect=TRUE, ...)
 
 
 }

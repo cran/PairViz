@@ -1,6 +1,6 @@
 
 
-order_tsp <- function(d, method = "nearest", cycle=TRUE,improve=FALSE,path_dir = path_cor,...)
+order_tsp <- function(d, method = "nearest", cycle=FALSE,improve=FALSE,path_dir = path_cor,...)
 {   #returns SHORTEST CYCLE or PATH via TSP
 	#method must be one of"nearest_insertion", "farthest_insertion", "cheapest_insertion",         
 	#"arbitrary_insertion" "nn", "repetitive_nn"
@@ -14,8 +14,10 @@ order_tsp <- function(d, method = "nearest", cycle=TRUE,improve=FALSE,path_dir =
 	  tour <- solve_TSP(tsp,method="2-opt",control=list(tour=tour))
 	if (cycle != TRUE) tour <- cut_tour(tour,"cut")
     tour <- as.integer(tour) 
+
     if (is.function(path_dir))
        tour <-  best_orientation(tour,d,cycle, path_dir)
+ 
     return(tour)
 	}
 	
@@ -33,8 +35,10 @@ order_best <- function(d, maxexact=9,nsamples=50000,path_weight=sum,cycle=FALSE,
       else perms <- t(sapply(1:nsamples, function(i) sample(n,n)))
       pathlens <- apply(perms,1, function(h) path_weight(path_values(h,d,cycle)))
       o <- perms[which.min(pathlens),]
+ 
       if (is.function(path_dir))
          o <-  best_orientation(o,d,cycle, path_dir) 
+   
       return(o)
 	}
 
@@ -70,16 +74,28 @@ best_orientation <- function(path,d, cycle=FALSE, path_dir= path_cor,from=NULL){
   v <- path_values(path,d, cycle)
   if (cycle) {
      if (is.null(from)) {
-    	dirs <- sapply(1:length(v),function(s) { 
+     	dirs <- sapply(1:length(v),function(s) { 
     		          vs <- vecshift(v,s) 
     		          return(c(path_dir(vs),path_dir(rev(vs))))})
-    	if (max(dirs[1,]) > max(dirs[2,]))
-           path <- vecshift(path,which.max(dirs[1,]))
-         else
-           path <- rev(vecshift(path,which.max(dirs[2,])))
+     	
+    	if (max(dirs[1,]) > max(dirs[2,])){
+    	  w <- which(dirs[1,]== max(dirs[1,]))
+    	  # if there are ties pick the one with the smallest node
+    	  w <- w[which.min(path[w])]
+        path <- vecshift(path,w)
+    	}
+         else {
+           w <- which(dirs[2,]== max(dirs[2,]))
+           w <- w[which.min(path[w])]
+           if (w ==length(path))
+             path <- rev(path)
+           path <- rev(vecshift(path,w+1))
+         }
+         
          } else {
         path <- vecshift(path,match(from,path))
          v <- path_values(path,d, cycle)
+       
         if (path_dir(v) < path_dir(rev(v))) path <-  c(path[1], rev(path[-1]))   
        }} else 
         if (path_dir(v) < path_dir(rev(v))) path <- rev(path)       
@@ -87,9 +103,9 @@ best_orientation <- function(path,d, cycle=FALSE, path_dir= path_cor,from=NULL){
 }
 	
 	
-path_cor <- function(edgew,method="kendall")
-	cor(1:length(edgew),edgew,method=method)
-	
+path_cor <- function(edgew,method="kendall"){
+  cor(1:length(edgew),edgew,method=method)
+}	
 	
 	
 weighted_hpaths <- function(d, path1 = NULL,paths=NULL,

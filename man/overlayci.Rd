@@ -6,7 +6,9 @@
   Overlays confidence intervals on the current plot. Also draws a right hand axis, a horizontal broken line at zero, and marks the significant comparisons with an arrow, i.e. the CIs that do not intersect zero.
 }
 \usage{
-overlayCI(cis, xpos=NULL,ci.cols = NULL, ci.ex = 2, ci.ocol = "grey40", p.col = "grey40", pch = 1, sig.col = "red", sig.lwd = 1, yusr = NULL,ci.label="Differences",ci.cex=0.5,arrow.length=0.1,...)
+overlayCI(cis, xpos=NULL,ci.cols = NULL, ci.ex = 2, ci.ocol = "grey40", 
+p.col = "grey40", pch = 1, sig.col = "red", sig.lwd = 1, yusr = NULL,
+ci.label="Differences",ci.cex=0.5,arrow.length=0.1,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

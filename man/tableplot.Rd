@@ -5,7 +5,10 @@
 \description{
    Plots rectangles on a grid-  a barchart/mosaic variant which facilitates pairwise comparisons.}
 \usage{
-table_plot(rectw, recth, col="grey50", gapx = NULL, gapy = NULL, spacex = 0.03, spacey = 0.03, xjust = "center", yjust = "center", xruler = NULL, yruler = NULL, color.ruler = "grey32",pch0=1,xlab=NULL,ylab=NULL, plot=TRUE,...)
+table_plot(rectw, recth, col="grey50", gapx = NULL, gapy = NULL, 
+spacex = 0.03, spacey = 0.03, xjust = "center", yjust = "center", 
+xruler = NULL, yruler = NULL, color.ruler = "grey32",
+pch0=1,xlab=NULL,ylab=NULL, plot=TRUE,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -47,16 +50,22 @@ table_plot(sqrt(tab),sqrt(tab))
 
 tabp <- prop.table(tab,2)
 
-table_plot(apply(tab,2,sum),tabp) # make cell widths proportional to margin totals, heights to conditional prob
+table_plot(apply(tab,2,sum),tabp) # make cell widths proportional to 
+#margin totals, heights to conditional prob
 
 cols <- 2:5
-table_plot(apply(tab,2,sum),tabp, yjust="bottom",col=cols,yruler=c("left","right")) # add colours, rulers and  bottom-justify
+table_plot(apply(tab,2,sum),tabp, yjust="bottom",col=cols,yruler=c("left","right")) 
+# add colours, rulers and  bottom-justify
 
-# The result is similar to the mosaic, without the mosaic effect of equalizing gaps. In the table version the rectangles line up across rows, so comparing heights, ie. conditional probs is easier.
+# The result is similar to the mosaic, without the mosaic effect of equalizing gaps. 
+#In the table version the rectangles line up across rows, 
+#so comparing heights, ie. conditional probs is easier.
 
 o <- hpaths(1:4)[2,]
 table_plot(apply(tab,2,sum)[o],tabp[,o], yjust="bottom",col=cols,yruler=c("left","right"))
-# Permutes the columns so all pairs of columns can be compared. In the second permutation can easily see that   p(black|blue eyes)> p(black|green eyes)
+# Permutes the columns so all pairs of columns can be compared. 
+#In the second permutation can easily see that   
+#p(black|blue eyes)> p(black|green eyes)
 
 
 dev.new()

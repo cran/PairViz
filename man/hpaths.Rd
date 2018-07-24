@@ -61,13 +61,15 @@ hpaths(7) # the rows form a decomp. into hamiltonian cycles
 # Now concatenate the rows and close the path
 hpaths(7,matrix=FALSE)
 
-# Form a decomposition into hamiltonian cycles- this decomposition is not exact, as the last row duplicates edges
+# Form a decomposition into hamiltonian cycles- 
+# this decomposition is not exact, as the last row duplicates edges
 hpaths(7,cycle=FALSE)
 
 # For even n, the default is a decomposition into hamiltonian paths, not cycles.
 hpaths(6)
 
-# If cycles are required for even n, the decomposition will not be exact and the last row duplicates edges
+# If cycles are required for even n, 
+# the decomposition will not be exact and the last row duplicates edges
 
 hpaths(6,cycle=TRUE)
 

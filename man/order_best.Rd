@@ -5,13 +5,14 @@
 Returns the best hamiltonian
 }
 \usage{
-order_best(d, maxexact=9,nsamples=50000,path_weight=sum,cycle=FALSE,path_dir = path_cor,...)
+order_best(d, maxexact=9,nsamples=50000,path_weight=sum,
+cycle=FALSE,path_dir = path_cor,...)
 }
 \arguments{
   \item{d}{A \code{dist}, used to provide edge weights.}
    \item{maxexact}{If \code{>= n}, finds the overall best hamiltonian, otherwise compares \code{nsamples}
 randomly generated permutations.}
-    \item{nsamples}{If \code{n > < maxexact}, finds the  best of \code{nsamples} randomly generated permutations .}
+    \item{nsamples}{If \code{n >  maxexact}, finds the  best of \code{nsamples} randomly generated permutations .}
   \item{cycle}{If \code{TRUE}, finds the shortest cycle, otherwise the shortest open path.}
   \item{path_weight}{Combines edge weights into a single path/cycle weight.}
   \item{path_dir}{If a function is provided, used to re-orient the cycle/path. Default function is \code{\link{path_cor}}.}

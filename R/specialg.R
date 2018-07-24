@@ -5,6 +5,18 @@ mk_hypercube_graph <- function(n,sep="")	{
 	}
 
 
+# binary1 <- function(x,n){
+	#better version of binary below
+     # ans <- numeric(n)
+     # y <- NULL
+     # i<- 0
+     # while (x != 0){
+     	# ans[i<-i+1] <- x %% 2 
+    	# x <- x %/% 2
+   
+      	# }
+      # return(ans)
+      # }
 
 mk_binary_graph <- function(n,sep="",delta=1,test=`==`)	{
   
@@ -26,33 +38,41 @@ mk_binary_graph <- function(n,sep="",delta=1,test=`==`)	{
       n <- length(nodeid)
       }
   nnodes <- 2^n
-  id <- t(sapply(0:(2^n -1),binary,n))
-  if (is.null(nodeid))
-     nnames <- apply(id,1, function(x) do.call("paste",as.list(c(x,sep=sep))))
-  else
-     nnames <- c("0", apply(id[-1,],1, 
+  id <- sapply(0:(2^n -1),binary,n)
+  if (is.null(nodeid)){
+     nnames <- apply(id,2, function(x) do.call("paste",as.list(c(x,sep=sep))))
+     idnames <- as.data.frame(id) 
+     }
+  else {
+     nnames <- c("0", apply(id[,-1],2, 
       function(x) do.call("paste",as.list(c(nodeid[as.logical(rev(x))],sep=sep)))))
-
+     idnames <- c(list(NULL),lapply(2:ncol(id), function(i) nodeid[as.logical(id[,i])]))
+   }
   g <- new("graphNEL", nodes=nnames)
+ 
   for (i in 1:(length(nnames)-1)){
     x <- nnames[i]
     for (j in (i+1):length(nnames)) {
     	y <- nnames[j]
-    	diff <- id[i,] - id[j,]
+    	diff <- id[,i] - id[,j]
   	    if (all(diff>=0) | all(diff <=0)){
   	    	if(test(sum(abs(diff)),delta))
   	    	  g <-addEdge(x,y,g)
   	     	 	}
  }
  }
- return(g)
+  nodeDataDefaults(g, "id") <- "id"
+  nodeData(g,nodes(g),"id") <- idnames
+   return(g)
 }
 
 
 
 mk_line_graph <- function(g,sep="-"){
+	nodesg <- nodes(g)
 	e <- edgeMatrix(g,duplicates=FALSE)
-	e <- matrix(nodes(g)[e],ncol=2,byrow=TRUE)
+	idnames <- lapply(1:ncol(e), function(i) nodesg[e[,i]])
+	e <- matrix(nodesg[e],ncol=2,byrow=TRUE)
 	ledges <- NULL
 	lnode_names <- apply(e,1, function(z) do.call("paste",as.list(c(z,sep=sep))))
 	nlnodes <- length(lnode_names)
@@ -67,13 +87,30 @@ mk_line_graph <- function(g,sep="-"){
 	  }
 	 newg <- new("graphNEL", nodes=lnode_names)
 	 newg <- addEdge(ledges[,1],ledges[,2],newg)
+	 nodeDataDefaults(newg, "id") <- "id"
+     nodeData(newg,nodes(newg),"id") <- idnames
+
 	 return(newg)
 		}
 		
 
 kspace_graph <- function(n,m, link=NULL,sep="-"){
+  nid <- NULL
+  if (length(n) !=1) {
+      nid <- n
+      n <- length(n)
+      }
+
   knodes <- combn(n, m)
-  knode_names <- apply(knodes, 2,function(z) do.call("paste",as.list(c(z,sep=sep))))
+  if (is.null(nid)){
+    knode_names <- apply(knodes, 2,function(z) do.call("paste",as.list(c(z,sep=sep))))
+    idnames <- lapply(1:ncol(knodes), function(i) knodes[,i])
+
+    }
+  else {
+    knode_names <- apply(knodes, 2,function(z) do.call("paste",as.list(c(nid[z],sep=sep))))
+    idnames <- lapply(1:ncol(knodes), function(i) nid[knodes[,i]])
+  }
   if (is.null(link))
     newg <- mk_complete_graph(knode_names)
   else {
@@ -91,6 +128,8 @@ kspace_graph <- function(n,m, link=NULL,sep="-"){
      newg <- new("graphNEL", nodes=knode_names)
      newg <- addEdge(ed[,1],ed[,2],newg)
    }
+     nodeDataDefaults(newg, "id") <- "id"
+     nodeData(newg,nodes(newg),"id") <- idnames
 	 return(newg)
 	 }
 	  
@@ -102,6 +141,7 @@ graph_product <- function(g,h, type="cartesian",sep="-"){
 	h1 <- nodes(h)
 	k1 <- cbind(rep(g1,times=length(h1)),rep(h1,each=length(g1)))
 	n <- apply(k1,1, function(z) do.call("paste",as.list(c(z,sep=sep))))
+	idnames <- as.data.frame(t(k1),stringsAsFactors=F) 
 	ed <- NULL
 	if (type=="cartesian") {
 	  for (i in 1:(length(n) -1))
@@ -126,6 +166,9 @@ graph_product <- function(g,h, type="cartesian",sep="-"){
 	   	    }
     newg <- new("graphNEL", nodes=n)
      newg <- addEdge(ed[,1],ed[,2],newg)
+     nodeDataDefaults(newg, "id") <- "id"
+     nodeData(newg,nodes(newg),"id") <- idnames
+
      return(newg)
 	}
 	

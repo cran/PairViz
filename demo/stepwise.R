@@ -2,31 +2,65 @@ library(PairViz)
 
 
 #----------
-regression_graph <- function(y,x)
+regression_graph <- function(y,x,sep="+")
   {
-  	g <- mk_hypercube_graph(colnames(x)) 
+  	g <- mk_hypercube_graph(colnames(x),sep) 
   	nodeDataDefaults(g, "residuals") <- 0
-  	nodeDataDefaults(g, "sse") <- 0
+   	nodeDataDefaults(g, "sse") <- 0
     edgeDataDefaults(g,"weight") <- 1
 
   
     preds <- nodes(g)
-    res <-sapply(preds,function(z) {
-      p <- strsplit(z,character(0))[[1]]
-	  if (p[1]=="0") 
+    predvars <- strsplit(preds,"+",fixed=TRUE)
+    res <-sapply(predvars,function(p) {
+      # p <- strsplit(z,sep,fixed=TRUE)[[1]]
+     if (p[1]=="0") 
 	     r <- y - mean(y)
 	  else {d <- as.data.frame(x[,p])
 	  r <- lm(y ~., data=d)$residuals}
 	  
 	  return(r)})
 	  
+	colnames(res) <- preds
+    nodeData(g, nodes(g),"residuals") <- as.data.frame(res)
+    nodeData(g, nodes(g),"sse") <- apply(res,2, function(r) sum(r^2))
+
+    for (n in nodes(g)) {
+    	m <- edges(g,n)[[1]]
+    	ew <- unlist(nodeData(g,m,"sse")) - nodeData(g,n,"sse")[[1]]
+    	edgeData(g,n,m,"weight") <- abs(ew)
+    	}  	
+
+    return(g)
+  	}
+
+regression_graph1 <- function(y,x,sep="+")
+  {
+  	g <- mk_hypercube_graph(colnames(x),sep) 
+  	nodeDataDefaults(g, "residuals") <- 0
+  	nodeDataDefaults(g, "fit") <- 0
+  	
+  	nodeDataDefaults(g, "sse") <- 0
+    edgeDataDefaults(g,"weight") <- 1
+
+  
+    preds <- nodes(g)
+    predvars <- strsplit(preds,"+",fixed=TRUE)
+    mods <-lapply(predvars,function(p) {
+      # p <- strsplit(z,sep,fixed=TRUE)[[1]]
+     if (p[1]=="0") 
+	     m <- lm(y ~1)
+	  else {d <- as.data.frame(x[,p])
+	  m <- lm(y ~., data=d)}
 	  
-    colnames(res) <- preds
-    for (i in 1:ncol(res)){
-      r <- res[,i]
-      nodeData(g,nodes(g)[i],"residuals"	) <- list(r)
-      nodeData(g,nodes(g)[i],"sse"	) <- sum(r*r)
-      }
+	  return(m)})	
+	    
+	res<- sapply(mods, function(m) m$residuals)  
+    # colnames(res) <- preds
+    nodeData(g,nodes(g),"fit")<- mods
+    nodeData(g, nodes(g),"residuals") <- lapply(mods, function(m) m$residuals)
+    nodeData(g, nodes(g),"sse") <- apply(res,2, function(r) sum(r^2))
+
     for (n in nodes(g)) {
     	m <- edges(g,n)[[1]]
     	ew <- unlist(nodeData(g,m,"sse")) - nodeData(g,n,"sse")[[1]]
@@ -40,7 +74,7 @@ regression_graph <- function(y,x)
 
 
 
-library(alr3)
+require(alr3)
 data(sleep1)
 
 data <- sleep1
@@ -72,13 +106,18 @@ eulerian(g,weighted=FALSE)
 # This version uses weights, and picks as a start a node connected to the loweset weight edge, which happens to be node AD
 # To do a backwards selection version, specify start as "ABCD"
 
-
-o <- eulerian(g,start="ABCD")
+fullm<- "ABCD"
+o <- eulerian(g,start=fullm)
 
 	
-ew <- NULL	
-for (i in 2:length(o)) ew <- c(ew,
-  nodeData(g,o[i],"sse")[[1]] - nodeData(g,o[i-1],"sse")[[1]])
+# ew <- NULL	
+# for (i in 2:length(o)) ew <- c(ew,
+  # nodeData(g,o[i],"sse")[[1]] - nodeData(g,o[i-1],"sse")[[1]])
+
+
+ew <- unlist(nodeData(g,o,"sse"))
+
+ew<-ew[-1]- ew[-length(o)]
 
 
 dev.new(width=8,height=3)
@@ -89,7 +128,7 @@ pcp0 <- function(...){pcp(...)
 	abline(h=0,col="grey70",lwd=2)}
 
 cols <- desaturate_color(rainbow(10,alpha=0.7))
-cols <- cols[cut(rank(res[,"ABCD"]),10,labels=FALSE)]
+cols <- cols[cut(rank(res[,fullm]),10,labels=FALSE)]
 
 guided_pcp(res,path=match(o,nodes(g)),pathw=ew,bar.col="#FDCDAC",pcp.scale=FALSE,pcpfn=pcp0,lwd=2,pcp.col=cols,main="Sleep data: Model residuals.",pcp.mar=c(1,1,1.5,1))
 
@@ -113,12 +152,12 @@ cols[rownames(data) =="Ground_squirrel"  ] <- "magenta"
 g1 <- g
 g1 <- removeNode("0" ,g1)
 #Graph is not even- so construction of eulerian requires extra edges
-o <- eulerian(g1,start="ABCD")
+o <- eulerian(g1,start=fullm)
 #In this case extra edges are beween A-D and C-B
 
-ew <- NULL	
-for (i in 2:length(o)) ew <- c(ew,
-  nodeData(g1,o[i],"sse")[[1]] - nodeData(g1,o[i-1],"sse")[[1]])
+ew <- unlist(nodeData(g1,o,"sse"))
+
+ew<-ew[-1]- ew[-length(o)]
 
 	
 
@@ -141,11 +180,12 @@ for (n in nodes(g1)) {
 	g1 <- removeNode(n,g1)
 	}
 
-o <- eulerian(g1,start="ABCD")
+o <- eulerian(g1,start=fullm)
 
-ew <- NULL	
-for (i in 2:length(o)) ew <- c(ew,
-  nodeData(g1,o[i],"sse")[[1]] - nodeData(g1,o[i-1],"sse")[[1]])
+ew <- unlist(nodeData(g1,o,"sse"))
+
+ew<-ew[-1]- ew[-length(o)]
+
 
 ecols <- rep("#FDCDAC",length(ew))
 
@@ -160,7 +200,7 @@ dev.new(width=5,height=3)
 
 par(tcl = -.2, cex.axis=.4,mgp=c(3,.3,0))
 
-guided_pcp(res,path=match(o,nodes(g)),pcp.scale=FALSE,pathw=ew,bar.col=ecols,pcpfn=pcp0,lwd=2,pcp.col=cols,main="Sleep data: Model residuals.",pcp.mar=c(1,1,2,1))
+guided_pcp(res,path=match(o,nodes(g1)),pcp.scale=FALSE,pathw=ew,bar.col=ecols,pcpfn=pcp0,lwd=2,pcp.col=cols,main="Sleep data: Model residuals.",pcp.mar=c(1,1,2,1))
 
 
 

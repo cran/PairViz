@@ -21,26 +21,42 @@ eseq <- function(n){
 	
 
 	   	
-eseqa <- function(n){
-	if (n %% 2 != 0) {
-	  	m <- (n-1)/2
-	    e <- array(0,c(n,m))
-	    e[1,1] <- 0
-	    for (k in 2:n)  
-		    e[k,1] <- e[k-1,1] + m*(m+1)/2  
-        if (m >= 2) for (j in 2:m) e[,j] <- e[,j-1] + j-1
-        e <- e%% n +1	
-        e <- c(as.vector(t(e)),1)
-	  	}
-	else {
-		e <- eseqa(n+1)
-		e <- e[e!=(n+1)]
-		e <- e[-length(e)]
-		}
-	return(e)
-	}
+# eseqa <- function(n){
+# 	if (n %% 2 != 0) {
+# 	  	m <- (n-1)/2
+# 	    e <- array(0,c(n,m))
+# 	    e[1,1] <- 0
+# 	    for (k in 2:n)  
+# 		    e[k,1] <- e[k-1,1] + m*(m+1)/2  
+#         if (m >= 2) for (j in 2:m) e[,j] <- e[,j-1] + j-1
+#         e <- e%% n +1	
+#         e <- c(as.vector(t(e)),1)
+# 	  	}
+# 	else {
+# 		e <- eseqa(n+1)
+# 		e <- e[e!=(n+1)]
+# 		e <- e[-length(e)]
+# 		}
+# 	return(e)
+# 	}
 
 
+# same result as above, just simpler
+eseqa <-
+  function(n){
+    if (n %% 2 != 0) {
+      m <- (n-1)/2
+      f <- m*(m+1)/2
+      e <- cumsum(0:(m-1)) + rep(seq(0, by=f, length.out=n),each=m)
+      e <- c(e%% n +1	,1)
+    }
+    else {
+      e <- eseqa(n+1)
+      e <- e[e!=(n+1)]
+      e <- e[-length(e)]
+    }
+    return(e)
+  }
 
 kntour_drop <- function(e){
 	n <- max(e)

@@ -43,7 +43,8 @@ g <- mk_even_graph(6) # adds 3 extra edges to g, so all nodes are even
 etour(g)
 etour(g, start= "4") # modifies the starting node
 
-eulerian(6) # The eulerian wrapper looks after making even graph, also returns numbers rather than nodes
+eulerian(6) # The eulerian wrapper looks after making even graph,
+#also returns numbers rather than nodes
 
 # On a general graph.
 v <- LETTERS[1:4]
