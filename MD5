@@ -1,4 +1,4 @@
-ca5f9cb36b8ef0d9ce4c787f84e08bac *DESCRIPTION
+23af354ea9aa108ababaf8c0ddb70d5c *DESCRIPTION
 6173ecbfb1e046dc6c5f0eeb0dd330e5 *NAMESPACE
 405682d88f95c37d9530652bdbd2719e *R/catpcp.R
 dcb0ed3563571d3dab35c5ff18486b2f *R/desaturate_color.R
@@ -13,7 +13,7 @@ e97fc615b7ee6082fc5d56c2a44a69c5 *R/mcplot.R
 b345bc9640175c28fc4e0ff06d52c8e2 *R/pathweights.R
 824000203b7faaf8cc3e961a21d5694a *R/specialg.R
 8e0807dad45abfb321a310cc1ad76f1e *R/table_plot.R
-90cd8d90ebbe8dc234baa41784a91a97 *build/vignette.rds
+39983eb606cc5cc5e856e6c94e39d7a0 *build/vignette.rds
 8ffc6100421cb00e5377ffb4a90cd0e8 *data/cancer.txt
 2d4bff8a637f2239f24fb64be3d1bdb7 *demo/00Index
 92d5bf8868166a2222053e3f196632ef *demo/cat_pcp.R
@@ -29,10 +29,13 @@ e7a1b5ab89b16062c6161e2b544c4bdf *demo/rating.R
 d65bebfb5890676ae7d8c5156f3b8db6 *demo/tableplot.R
 8d0b2dfacdcc5882d1f47fc770d7e905 *inst/doc/MultipleComparisons.R
 70ab7ff3082c435995c58f769ed3ecdb *inst/doc/MultipleComparisons.Rmd
-952c5fdc197387b6ab9a1c2ebe2fc4dd *inst/doc/MultipleComparisons.html
+7ba60063308bb290607f7d1be50a3648 *inst/doc/MultipleComparisons.html
 41ffbdcf8330265825f5bb207cbce68a *inst/doc/PairVizIntroduction.R
 f8af31a794c8eabba1d73e49fa8c4182 *inst/doc/PairVizIntroduction.Rmd
-cc49a66e7d03ea333447eed65d1a4911 *inst/doc/PairVizIntroduction.html
+75112c27ff6a8295bd2a0012e21fe5e8 *inst/doc/PairVizIntroduction.html
+e645dff75c0d41bffa96f6b1f1890bff *inst/doc/pcp.R
+83e9a5f18ffa142c47e0a76754cc9f55 *inst/doc/pcp.Rmd
+e55494fa3fdd164d049d055cf90772dd *inst/doc/pcp.html
 5543fb0bcf5a041613d257073200d00c *man/best_orientation.Rd
 453c9262ca5974bb756a3af28d291d91 *man/cancer.Rd
 23d02a196b4a10d1733fe72bc0e5eaec *man/desaturate_color.Rd
@@ -46,7 +49,7 @@ d19a6403fcc6fa06774efca15adfc1e8 *man/hpaths.Rd
 0986a40601cf722856b7650f3abd2f7a *man/mc_plot.Rd
 56fa98635e9c40691f82a95675f53d9b *man/mk_complete_graph.Rd
 07ae93af036739595359c5cf3d3daf1e *man/mk_even_graph.Rd
-8196e21c6a7bcc2aeafbe68ef4b11ede *man/order_best.Rd
+b3ca7a8e4f1f787cf764b3f5d6f56c4c *man/order_best.Rd
 6051f0b9ff9c4ad791b31046ee0a9698 *man/order_tsp.Rd
 4e0186e0a43d77ef182e82c63f785034 *man/overlayci.Rd
 d08025c9913aa0296de52a4906f8486b *man/overview.Rd
@@ -59,3 +62,4 @@ d00070108be2325d4efb6da851db1cd0 *man/path_cor.Rd
 c3a80de49df2a9a5bc88368af6c861d8 *man/whpaths.Rd
 70ab7ff3082c435995c58f769ed3ecdb *vignettes/MultipleComparisons.Rmd
 f8af31a794c8eabba1d73e49fa8c4182 *vignettes/PairVizIntroduction.Rmd
+83e9a5f18ffa142c47e0a76754cc9f55 *vignettes/pcp.Rmd
