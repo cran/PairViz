@@ -31,8 +31,10 @@ install.packages("PairViz")
 
 PairViz uses the graph data structure provided by the graph package which is located on the Bioconductor repository rather than CRAN. To install this, use
 ```{r eval=FALSE}
-source("https://bioconductor.org/biocLite.R")
-biocLite("graph")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("graph")
 ```
 
 
@@ -63,9 +65,10 @@ Alternatively, graphs may be plotted using package Rgraphviz
 which is installed from Bioconductor:
 
 ```{r eval=FALSE}
-source("https://bioconductor.org/biocLite.R")
-biocLite("Rgraphviz")
-library(Rgraphviz)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("Rgraphviz")
 # For a graph g use
 plot(g)
 ```

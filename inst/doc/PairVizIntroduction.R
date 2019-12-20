@@ -8,8 +8,10 @@ knitr::opts_chunk$set(
 #  install.packages("PairViz")
 
 ## ----eval=FALSE----------------------------------------------------------
-#  source("https://bioconductor.org/biocLite.R")
-#  biocLite("graph")
+#  if (!requireNamespace("BiocManager", quietly = TRUE))
+#      install.packages("BiocManager")
+#  
+#  BiocManager::install("graph")
 
 ## ------------------------------------------------------------------------
 requireNamespace("igraph")
@@ -27,9 +29,10 @@ igplot <- function(g,weights=FALSE,layout=igraph::layout_in_circle,
 }
 
 ## ----eval=FALSE----------------------------------------------------------
-#  source("https://bioconductor.org/biocLite.R")
-#  biocLite("Rgraphviz")
-#  library(Rgraphviz)
+#  if (!requireNamespace("BiocManager", quietly = TRUE))
+#      install.packages("BiocManager")
+#  
+#  BiocManager::install("Rgraphviz")
 #  # For a graph g use
 #  plot(g)
 

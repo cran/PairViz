@@ -13,7 +13,6 @@ Patients with advanced cancers of the stomach, bronchus, colon, ovary or breast 
 \usage{data(cancer)}
 
 
-\source{Data obtained from \url{http://lib.stat.cmu.edu/DASL/Stories/CancerSurvival.html}}
 
 \references{
 Cameron, E. and Pauling, L. (1978) Supplemental ascorbate in the supportive treatment of cancer: re-evaluation of prolongation of survival times in terminal human cancer. Proceedings of the National Academy of Science USA, 75, 4538-4542. 

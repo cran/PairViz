@@ -24,14 +24,14 @@ order_tsp <- function(d, method = "nearest", cycle=FALSE,improve=FALSE,path_dir 
 order_best <- function(d, maxexact=9,nsamples=50000,path_weight=sum,cycle=FALSE,path_dir = path_cor,...) {
      #returns SHORTEST PATH or approximate 
   #   require(gtools)
-	if (class(d)=="dist") {
+	if (inherits(d,"dist")) {
 	   d <- as.matrix(d)
 	   dnames <- labels(d)}
 	else 
          dnames <- colnames(d)
       n <- nrow(d)
       if (n <= maxexact)
-     	 perms <<- permutations(n,n)
+     	 perms <- permutations(n,n)
       else perms <- t(sapply(1:nsamples, function(i) sample(n,n)))
       pathlens <- apply(perms,1, function(h) path_weight(path_values(h,d,cycle)))
       o <- perms[which.min(pathlens),]
