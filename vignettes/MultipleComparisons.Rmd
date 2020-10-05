@@ -331,6 +331,9 @@ Without the family-wise correction, the Breast-Colon comparison is also signific
 Female mice were randomly assigned to six treatment groups to investigate whether restricting dietary intake increases life expectancy.
 The data is available as
 ```{r}
+if (!requireNamespace("Sleuth3", quietly = TRUE)){
+    install.packages("Sleuth3")
+}
 library(Sleuth3)
 mice <- case0501
 str(mice)

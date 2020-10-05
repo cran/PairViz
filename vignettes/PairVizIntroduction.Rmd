@@ -31,10 +31,10 @@ install.packages("PairViz")
 
 PairViz uses the graph data structure provided by the graph package which is located on the Bioconductor repository rather than CRAN. To install this, use
 ```{r eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
+if (!requireNamespace("graph", quietly = TRUE)){
     install.packages("BiocManager")
-
-BiocManager::install("graph")
+    BiocManager::install("graph")
+}
 ```
 
 
@@ -48,6 +48,11 @@ igraph from CRAN. The following utility function will be helpful:
 
 ```{r }
 requireNamespace("igraph")
+if (!requireNamespace("igraph", quietly = TRUE)){
+    install.packages("igraph")
+}
+
+
 igplot <- function(g,weights=FALSE,layout=igraph::layout_in_circle, 
                    vertex.size=60, vertex.color="lightblue",...){
     g <- igraph::graph_from_graphnel(as(g, "graphNEL"))
@@ -65,10 +70,12 @@ Alternatively, graphs may be plotted using package Rgraphviz
 which is installed from Bioconductor:
 
 ```{r eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
 
-BiocManager::install("Rgraphviz")
+if (!requireNamespace("Rgraphviz", quietly = TRUE)){
+    install.packages("BiocManager")
+    BiocManager::install("Rgraphviz")
+}
+
 # For a graph g use
 plot(g)
 ```

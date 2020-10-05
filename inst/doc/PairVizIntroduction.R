@@ -1,20 +1,25 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  install.packages("PairViz")
 
-## ----eval=FALSE----------------------------------------------------------
-#  if (!requireNamespace("BiocManager", quietly = TRUE))
+## ----eval=FALSE---------------------------------------------------------------
+#  if (!requireNamespace("graph", quietly = TRUE)){
 #      install.packages("BiocManager")
-#  
-#  BiocManager::install("graph")
+#      BiocManager::install("graph")
+#  }
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 requireNamespace("igraph")
+if (!requireNamespace("igraph", quietly = TRUE)){
+    install.packages("igraph")
+}
+
+
 igplot <- function(g,weights=FALSE,layout=igraph::layout_in_circle, 
                    vertex.size=60, vertex.color="lightblue",...){
     g <- igraph::graph_from_graphnel(as(g, "graphNEL"))
@@ -28,33 +33,35 @@ igplot <- function(g,weights=FALSE,layout=igraph::layout_in_circle,
     par(op)
 }
 
-## ----eval=FALSE----------------------------------------------------------
-#  if (!requireNamespace("BiocManager", quietly = TRUE))
-#      install.packages("BiocManager")
+## ----eval=FALSE---------------------------------------------------------------
 #  
-#  BiocManager::install("Rgraphviz")
+#  if (!requireNamespace("Rgraphviz", quietly = TRUE)){
+#      install.packages("BiocManager")
+#      BiocManager::install("Rgraphviz")
+#  }
+#  
 #  # For a graph g use
 #  plot(g)
 
-## ----fig.show='hold'-----------------------------------------------------
+## ----fig.show='hold'----------------------------------------------------------
 suppressPackageStartupMessages(library(PairViz))
 k4 <- mk_complete_graph(4)
 k5 <- mk_complete_graph(5)
 igplot(k4)
 igplot(k5)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 eulerian(k5)
 
-## ----fig.show='hold', fig.align='center'---------------------------------
+## ----fig.show='hold', fig.align='center'--------------------------------------
 k5a <- removeEdge("1", "2", k5)
 igplot(k5a)
 eulerian(k5a)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 eulerian(k4)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 n <- LETTERS[1:5]
 g <- new("graphNEL",nodes=n)
 efrom <- n[c(1,1,2,2,2,4)]
@@ -62,16 +69,16 @@ eto <- n[c(2:3,3:5,5)]
 ew <- c(8,9,5:7,1)
 g <- addEdge(efrom, eto, g, ew) 
 
-## ----fig.align="center"--------------------------------------------------
+## ----fig.align="center"-------------------------------------------------------
 igplot(g, weights=TRUE,edge.label.color="black")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 eulerian(g)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 eulerian(g, weighted=FALSE)
 
-## ----fig.show='hold'-----------------------------------------------------
+## ----fig.show='hold'----------------------------------------------------------
 ew <- rep(1, length(edgeNames(k5)))
 s1 <- c(1,5,9,10)
 ew[s1]<- 5
@@ -86,7 +93,7 @@ ec[] <- "grey40"
 ec[s2]<- "magenta"
 igplot(k5, edge.width=ew, edge.color=ec)
 
-## ----fig.align='center'--------------------------------------------------
+## ----fig.align='center'-------------------------------------------------------
 ew[]<- 5
 ec[s1]<- "cyan"
 s3 <- 3:4
@@ -94,25 +101,25 @@ ec[s3]<- "rosybrown1"
 igplot(k5, edge.width=ew, edge.color=ec)
 igplot(k5, edge.width=ew, edge.color=ec)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 hpaths(5)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 hpaths(5, matrix=FALSE)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 hpaths(6)
 hpaths(6, matrix=FALSE)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 hpaths(1:5)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 set.seed(123)
 k7 <- mk_complete_graph(7)
 ew <- sample(numEdges(k7),numEdges(k7)) # a vector of edgeweights
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 d7 <- matrix(0,7,7)
 d7[lower.tri(d7)] <- ew
 d7[upper.tri(d7)]<-  t(d7)[upper.tri(d7)]
@@ -120,7 +127,7 @@ d7
 # or using the shortcut function edge2dist from PairViz
 #d7 <- as.matrix(edge2dist(ew))
 
-## ----fig.align="center",fig.width=6, fig.height=6------------------------
+## ----fig.align="center",fig.width=6, fig.height=6-----------------------------
 k7 <- mk_complete_graph(d7)
 igplot(k7, weights=TRUE,edge.label.color="black", vertex.label.cex=2,vertex.size=30)
 
@@ -130,12 +137,12 @@ igplot(k7, weights=TRUE,edge.label.color="black", vertex.label.cex=2,vertex.size
 igraph::E(igraph::graph_from_graphnel(k7))
 
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 weighted_hpaths(d7)
 # this version returns the eulerian
 weighted_hpaths(d7, matrix=FALSE)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 o <- weighted_hpaths(d7, matrix=FALSE)
 o1 <- o[1:8] # include the 8th to form the tour
 d7e <- dist2edge(d7) 
@@ -147,23 +154,23 @@ d7[cbind(head(o1,-1), o1[-1])]
 h1weights
 sum(h1weights)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 o2 <- o[8:15]
 sum(path_weights(d7e, o2))
 o3 <- o[15:22]
 sum(path_weights(d7e, o3))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 order_best(d7,cycle=TRUE)
 order_tsp(d7,cycle=TRUE)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 e1 <- eseq(7)
 e2 <- eseqa(7)
 e3 <- eulerian(7) # same path as eulerian(k7, weighted=FALSE)
 h1 <- hpaths(7, matrix=FALSE)
 
-## ----fig.width=7, fig.height=6, echo=FALSE-------------------------------
+## ----fig.width=7, fig.height=6, echo=FALSE------------------------------------
 par(mfrow=c(2,2))
 par(mar=c(2,2,3,1))
 
@@ -229,11 +236,11 @@ lines(1:8,h1[1:8], col="cyan", lwd=1.5); lines(8:15,h1[8:15], col="magenta", lwd
 lines(15:22,h1[15:22], col="tan1", lwd=1.5)
 points(h1, pch=20);grid()
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 e4 <- eulerian(d7) # same path as eulerian(k7)
 h2 <- weighted_hpaths(d7, matrix=FALSE)
 
-## ----fig.width=7, fig.height=3, echo=FALSE-------------------------------
+## ----fig.width=7, fig.height=3, echo=FALSE------------------------------------
 par(mfrow=c(1,2))
 par(mar=c(2,2,3,1))
 
@@ -270,12 +277,12 @@ lines(1:8,h2[1:8], col="cyan",lwd=1.5); lines(8:15,h2[8:15], lwd=1.5,col="magent
 lines(15:22,h2[15:22], col="tan1", lwd=1.5)
 points(h2, pch=20);grid()
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 d7e <- dist2edge(d7) 
 path_weights(d7e, e4) # the edge weights for e4
 path_weights(d7e, h2) # the edge weights for h2
 
-## ----fig.width=7, fig.height=3, echo=FALSE-------------------------------
+## ----fig.width=7, fig.height=3, echo=FALSE------------------------------------
 par(mfrow=c(1,2))
 par(mar=c(2,2,3,1))
 

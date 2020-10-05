@@ -128,9 +128,17 @@ to keep the guides and also colour the panels.
 We access the data, remove NAs, transform two highly skewed variables,
 give variables shortnames, and set up a colour vector for plots.
 ```{r}
-suppressPackageStartupMessages(library(alr3))
+if (!requireNamespace("alr4", quietly = TRUE)){
+    install.packages("alr4")
+}
+
+suppressPackageStartupMessages(library(alr4))
 data(sleep1)
 data <- na.omit(sleep1)
+# these vars changed to factors in alr4, change from alr3
+data$D <- as.numeric(data$D)
+data$P <- as.numeric(data$P)
+data$SE <- as.numeric(data$SE)
 
 # logging the brain and body weights
 data[,4:5] <- log(data[,4:5])
