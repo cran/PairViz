@@ -1,4 +1,4 @@
-122cd8381346fcad4d60e3c35148f176 *DESCRIPTION
+a0923c1139f0a75486aff74294639064 *DESCRIPTION
 6173ecbfb1e046dc6c5f0eeb0dd330e5 *NAMESPACE
 405682d88f95c37d9530652bdbd2719e *R/catpcp.R
 dcb0ed3563571d3dab35c5ff18486b2f *R/desaturate_color.R
@@ -14,7 +14,7 @@ b345bc9640175c28fc4e0ff06d52c8e2 *R/pathweights.R
 824000203b7faaf8cc3e961a21d5694a *R/specialg.R
 8e0807dad45abfb321a310cc1ad76f1e *R/table_plot.R
 3063d1c2dcd1cd7975c407ddce3779f3 *README.md
-648e01a6da7986351390499bc46b448a *build/vignette.rds
+02ca58b61fd26b9412eb81de95297c15 *build/vignette.rds
 8ffc6100421cb00e5377ffb4a90cd0e8 *data/cancer.txt
 2d4bff8a637f2239f24fb64be3d1bdb7 *demo/00Index
 92d5bf8868166a2222053e3f196632ef *demo/cat_pcp.R
@@ -30,17 +30,17 @@ e7a1b5ab89b16062c6161e2b544c4bdf *demo/rating.R
 d65bebfb5890676ae7d8c5156f3b8db6 *demo/tableplot.R
 328ffad143ae96a105e32c63be28ea22 *inst/doc/MultipleComparisons.R
 50cbef9992de211649849b81d9280074 *inst/doc/MultipleComparisons.Rmd
-68b75457dc0a75191e6898a9480f8f54 *inst/doc/MultipleComparisons.html
+9a9bb0e61df0baca32e95366b7251bd6 *inst/doc/MultipleComparisons.html
 0d2a9dea0bd218933273a5dd1503ce55 *inst/doc/PairVizIntroduction.R
 631e2379308612dc0be951aa172bc825 *inst/doc/PairVizIntroduction.Rmd
-f021d421eb248dc098195eea3fd03a65 *inst/doc/PairVizIntroduction.html
+066cdffdf689831badf5daaa0a8362e5 *inst/doc/PairVizIntroduction.html
 a940a9400ef774d4c73327a0e5900eb3 *inst/doc/pcp.R
 8c8ec2d940f860bafbd1aa0ceead632e *inst/doc/pcp.Rmd
-ac7d2b099975e7fc59166adbc6507213 *inst/doc/pcp.html
+06f73c20065b869f7cf1c473b11d9896 *inst/doc/pcp.html
 5543fb0bcf5a041613d257073200d00c *man/best_orientation.Rd
 eaba64f1fee2d5f0eb61847c1546430b *man/cancer.Rd
 23d02a196b4a10d1733fe72bc0e5eaec *man/desaturate_color.Rd
-ce6490a7577208af812a87861e7e446a *man/eseq.Rd
+d7402c86b97b48ea0aa24a510105d450 *man/eseq.Rd
 9ce4922d574707c2215157a7aa4d3022 *man/etour.Rd
 def26f23e4fbd6e0997cb5985e2d193d *man/eulerian.Rd
 04f2e5c611732bf19175155df713b893 *man/even_graph.Rd
@@ -57,7 +57,7 @@ d08025c9913aa0296de52a4906f8486b *man/overview.Rd
 d00070108be2325d4efb6da851db1cd0 *man/path_cor.Rd
 2f1f31cf4c2c401d4da5beea436126d1 *man/pathweights.Rd
 1803b64cb5b8e204225643447d8ff969 *man/pcp.Rd
-9429f2a69bd0df6047ef15c0eeb0ff32 *man/specialg.Rd
+2aad37585e67fdc601e3ef3eeb404120 *man/specialg.Rd
 126edc0b4db51b2c4339321eed388976 *man/spreadout.Rd
 1ecff3bdb3dc3e3be548349e62abd1e0 *man/tableplot.Rd
 c3a80de49df2a9a5bc88368af6c861d8 *man/whpaths.Rd
